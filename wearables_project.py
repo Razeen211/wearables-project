@@ -5,7 +5,7 @@ import os
 # Location of the wearable data file
 file_path = "path/to/wearables_all_labelled.xlsx"
 
-#Loads the Excel file into pandas
+# Loads the Excel file into pandas
 df = pd.read_excel(file_path)
 
 
@@ -31,7 +31,7 @@ participant_steps = (
 
 print(participant_steps)
 
-# Creates a bar graph displaying the average steps per particapant 
+# Creates a bar graph displaying the average steps per participant 
 participant_steps["mean"].plot(
     kind="barh",
     figsize=(10, 6),
@@ -45,14 +45,14 @@ plt.tight_layout()
 plt.show()
 
 
-#Split date and time into different date and time columns 
+# Split date and time into different date and time columns 
 df["date"] = df["dateTime"].dt.date
 df["time"] = df["dateTime"].dt.time
 
-#Prints the intial rows to check if the split works
+# Prints the intial rows to check if the split works
 print(df[["dateTime", "date", "time"]].head())
 
-# Show how many particpants there are 
+# Show how many participants there are 
 print("Number of aliases:", df["alias"].nunique())
 
 # Show how many rows of data each participant has 
@@ -89,12 +89,12 @@ print("\nData types:")
 print(df.dtypes)
 
 
-# check for duplicate rows
+# Check for duplicate rows
 print("\nDuplicate rows:")
 print(df.duplicated().sum())
 
 
-#Check numeric columns for negative values
+# Check numeric columns for negative values
 print("\nNegative values in numeric columns:")
 numeric_cols = df.select_dtypes(include="number").columns
 
