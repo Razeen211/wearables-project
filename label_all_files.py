@@ -5,7 +5,7 @@ import os
 file_path = "path/to/wearables_all_labelled.xlsx"
 df = pd.read_excel(file_path)
 
-# Make sure the timestamp columns are treated as dates/times
+# Convert timestamp columns to date/time
 df["dateTime"] = pd.to_datetime(df["dateTime"], errors="coerce")
 df["scoreDate"] = pd.to_datetime(df["scoreDate"], errors="coerce")
 
@@ -14,12 +14,12 @@ output_folder = "Output_Labeled"
 
 os.makedirs(output_folder, exist_ok=True)
 
-# Work on one participant at a time
+# Go through one participant at a time
 for alias, person in df.groupby("alias"):
 
     person = person.copy()
 
-    # Get the unique score dates and scores for this participant
+    # Get the score dates and scores for this participant
     labels = (
         person[["scoreDate", "score"]]
         .dropna()
@@ -27,10 +27,10 @@ for alias, person in df.groupby("alias"):
         .sort_values("scoreDate")
     )
 
-    # Create date-only versions for matching
+    # Creates a date-only versions for matching
     person["sensorDate"] = person["dateTime"].dt.normalize()
 
-    # Remove old score columns before assigning the labels again
+    # Remove old score columns before adding the labels
     person = person.drop(
         columns=["score", "scoreDate"],
         errors="ignore"
